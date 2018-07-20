@@ -11,8 +11,8 @@ auto ResourceManager::CreateMergeTextureFromResource(ResourceManager* manager) -
 	std::map<int, int> finder;
 
 	for (auto it = manager->resources.begin(); it != manager->resources.end(); it++) {
-		maxHeight = Utility::Max(maxHeight, it->rect.bottom);
-		needWidth += it->rect.right;
+		maxHeight = Utility::Max(maxHeight, it->rect.bottom - it->rect.top);
+		needWidth += it->rect.right - it->rect.left;
 
 		if (finder.count(it->renderObjectID) != 0) ERROR_RETURN_WITH_VALUE("÷ÿ∏¥µƒ‰÷»æ±‡∫≈°£", nullptr);
 
