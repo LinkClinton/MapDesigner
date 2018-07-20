@@ -7,6 +7,12 @@
 #include "CommandArea.hpp"
 #include "RenderObjectArea.hpp"
 
+struct Operation {
+	int x, y;
+	MapData* lastMapData;
+	MapData* nextMapData;
+};
+
 class MapDesigner {
 private:
 	const std::string name = "MapDesigner";
@@ -29,6 +35,8 @@ public:
 
 	float ssaa;
 
+	std::vector<Operation> operations;
+
 	void CreateObject();
 
 	void CreateTextureManager();
@@ -42,6 +50,10 @@ public:
 	void SetMap();
 
 	void SetResourceConfig();
+
+	void SetMapData(int mousePositionX, int mousePositionY);
+
+	void BackSetMapData();
 
 	static void OnUpdate(void* sender);
 

@@ -84,7 +84,6 @@
     </Font>
   </ItemGroup>
   <ItemGroup>
-    <None Include="command.md" />
     <None Include="Test.rconfig">
       <Filter>Resource Files</Filter>
     </None>

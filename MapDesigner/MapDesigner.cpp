@@ -107,6 +107,10 @@ void MapDesigner::SetMap()
 
 	world->SetWorldMap(mapManager->map);
 
+	for (auto it = operations.begin(); it != operations.end(); it++) 
+		Utility::Delete(it->nextMapData);
+
+	operations.clear();
 }
 
 void MapDesigner::SetResourceConfig()
@@ -119,6 +123,47 @@ void MapDesigner::SetResourceConfig()
 		renderObjectArea->AddRenderObject(it->renderObjectID);
 
 	textureManager->AddMergeTexture(0, resourceManager->mergeTexture);
+}
+
+void MapDesigner::SetMapData(int mousePositionX, int mousePositionY)
+{
+
+	if (mapManager->map == nullptr) return;
+
+	auto cameraRect = mainCamera->GetRectangle();
+
+	float x = ((float)mousePositionX / WINDOW_WIDTH) * (cameraRect.right - cameraRect.left) + cameraRect.left;
+	float y = ((float)mousePositionY / WINDOW_HEIGHT) * (cameraRect.bottom - cameraRect.top) + cameraRect.top;
+
+	auto index = mapManager->map->GetWorldMapDataIndex(x, y);
+
+	if (index == mapManager->map->InvalidLocation()) return;
+		
+	Operation record;
+
+	record.x = index.first;
+	record.y = index.second;
+	record.lastMapData = mapManager->map->GetMapData(index.first, index.second);
+	record.nextMapData = new MapData();
+
+	record.nextMapData->RenderObjectID = RenderObjectItem::GetFocusRenderObjectID();
+	
+	mapManager->map->SetMapData(index.first, index.second, record.nextMapData);
+
+	operations.push_back(record);
+}
+
+void MapDesigner::BackSetMapData()
+{
+	if (operations.size() == 0) return;
+
+	auto record = operations[operations.size() - 1];
+
+	mapManager->map->SetMapData(record.x, record.y, record.lastMapData);
+
+	Utility::Delete(record.nextMapData);
+
+	operations.pop_back();
 }
 
 void MapDesigner::OnUpdate(void * sender)
@@ -147,28 +192,6 @@ void MapDesigner::OnUpdate(void * sender)
 
 		mapDesigner->mainCamera->Move(translate);
 	}
-
-	int mousePositionX = Input::GetMousePositionX();
-	int mousePositionY = Input::GetMousePositionY();
-
-	if (Input::GetMouseButtonDown(Events::MouseButton::Left) == true) {
-		if (mousePositionX >= 0 && mousePositionX <= WINDOW_WIDTH - RENDER_OBJECT_AREA_WIDTH &&
-			mousePositionY >= 0 && mousePositionY <= WINDOW_HEIGHT - COMMAND_AREA_HEIGHT) {
-
-			if (mapDesigner->mapManager->map == nullptr) return;
-
-			auto cameraRect = mapDesigner->mainCamera->GetRectangle();
-
-			float x = ((float)mousePositionX / WINDOW_WIDTH) * (cameraRect.right - cameraRect.left) + cameraRect.left;
-			float y = ((float)mousePositionY / WINDOW_HEIGHT) * (cameraRect.bottom - cameraRect.top) + cameraRect.top;
-
-			auto mapData = mapDesigner->mapManager->map->GetWorldMapData(x, y);
-
-			if (mapData == nullptr) return;
-
-			mapData->RenderObjectID = RenderObjectItem::GetFocusRenderObjectID();
-		}
-	}
 }
 
 void MapDesigner::OnKeyDownEvent(void * sender, Events::KeyClickEvent * eventArg)
@@ -180,6 +203,9 @@ void MapDesigner::OnKeyDownEvent(void * sender, Events::KeyClickEvent * eventArg
 
 	if (eventArg->keyCode == KeyCode::Tab)
 		mapDesigner->commandArea->EnableRead(!mapDesigner->commandArea->IsEnableRead());
+
+	if (eventArg->keyCode == KeyCode::Z && Input::GetKeyCodeDown(KeyCode::ControlKey) == true)
+		mapDesigner->BackSetMapData();
 
 	mapDesigner->commandArea->OnReadCommand(mapDesigner->commandArea, eventArg);
 }
@@ -200,9 +226,17 @@ void MapDesigner::OnMouseDownEvent(void * sender, Events::MouseClickEvent * even
 			commandArea->GetPositionY() + commandArea->GetHeight());
 
 		if (eventArg->x >= rect.left && eventArg->x <= rect.right &&
-			eventArg->y >= rect.top && eventArg->y <= rect.bottom) 
+			eventArg->y >= rect.top && eventArg->y <= rect.bottom)
 			commandArea->EnableRead(true);
 		else commandArea->EnableRead(false);
+
+
+		if (eventArg->x >= 0 && eventArg->x <= WINDOW_WIDTH - RENDER_OBJECT_AREA_WIDTH &&
+			eventArg->y >= 0 && eventArg->y <= WINDOW_HEIGHT - COMMAND_AREA_HEIGHT) {
+
+			mapDesigner->SetMapData(eventArg->x, eventArg->y);
+		}
+
 	}
 }
 

@@ -149,7 +149,6 @@
     <Font Include="consola.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="command.md" />
     <None Include="config" />
     <None Include="Test.rconfig" />
     <None Include="Test.map" />
