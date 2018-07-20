@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MapDesigner", "MapDesigner\
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Engine", "Engine", "{9254B3EE-6C67-4201-9B61-293FBD1DFA0B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PixelWorldEngine", "..\..\..\PixelWorldEngine\PixelWorldEngine\PixelWorldEngine.vcxproj", "{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,9 +25,20 @@ Global
 		{84A39CF5-E0DA-4556-8B24-871A655AF966}.Release|x64.Build.0 = Release|x64
 		{84A39CF5-E0DA-4556-8B24-871A655AF966}.Release|x86.ActiveCfg = Release|Win32
 		{84A39CF5-E0DA-4556-8B24-871A655AF966}.Release|x86.Build.0 = Release|Win32
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Debug|x64.ActiveCfg = Debug|x64
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Debug|x64.Build.0 = Debug|x64
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Debug|x86.ActiveCfg = Debug|Win32
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Debug|x86.Build.0 = Debug|Win32
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Release|x64.ActiveCfg = Release|x64
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Release|x64.Build.0 = Release|x64
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Release|x86.ActiveCfg = Release|Win32
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{12CCC5C9-D3FF-4315-A2C1-BB8C7AA0AEEE} = {9254B3EE-6C67-4201-9B61-293FBD1DFA0B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {E0E82A13-373C-4D64-BF9C-9F57C9C82FC9}
