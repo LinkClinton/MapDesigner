@@ -262,6 +262,6 @@ __pycache__/
 
 # My
 
-.ThirdParty/
-.Package/
+/ThirdParty
+/Package
 .zip
